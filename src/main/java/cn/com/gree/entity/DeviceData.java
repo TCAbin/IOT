@@ -20,6 +20,10 @@ public class DeviceData {
     @Column
     private Integer humidity;
 
+    /** 是否在线 */
+    @Column
+    private boolean onLine;
+
     /** 数据时间 */
     @Column
     private Date eventTime;
@@ -50,6 +54,14 @@ public class DeviceData {
 
     public void setHumidity(Integer humidity) {
         this.humidity = humidity;
+    }
+
+    public boolean isOnLine() {
+        return onLine;
+    }
+
+    public void setOnLine(boolean onLine) {
+        this.onLine = onLine;
     }
 
     public Date getEventTime() {
