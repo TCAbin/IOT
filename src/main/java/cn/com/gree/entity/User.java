@@ -12,7 +12,7 @@ public class User {
 
     /** 用户名 */
     @Column(length = 30)
-    private String usreName;
+    private String userName;
 
     /** 登录密码 */
     @Column(length = 30)
@@ -34,12 +34,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUsreName() {
-        return usreName;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsreName(String usreName) {
-        this.usreName = usreName;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getLoginPassWord() {

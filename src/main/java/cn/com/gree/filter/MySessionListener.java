@@ -1,10 +1,10 @@
 package cn.com.gree.filter;
 
 import cn.com.gree.dao.BaseDao;
+import cn.com.gree.entity.User;
 
 import javax.annotation.Resource;
 import javax.servlet.annotation.WebListener;
-import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
@@ -21,9 +21,8 @@ public class MySessionListener implements HttpSessionListener {
 
     @Override
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
-        HttpSession session = httpSessionEvent.getSession();
-        String jpql = " update User u set u.isOnOption = false ";
-        baseDao.executeJpql(jpql);
-
+        User user = (User) baseDao.getByJpql(" select u from User u where u.userName = 'admin' ").get(0);
+        user.setOnOption(false);
+        baseDao.save(user);
     }
 }
