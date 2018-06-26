@@ -40,7 +40,7 @@ public class DeviceData {
 
     /** 关联的设备 */
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "device_data")
+    @JoinColumn(name = "device_id")
     private Devices device;
 
     public Long getId() {

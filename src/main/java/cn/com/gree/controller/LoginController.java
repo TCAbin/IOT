@@ -27,6 +27,9 @@ public class LoginController {
             return new Result(false,"failed");
         }
     }
+
+    @RequestMapping(value = "update",method = RequestMethod.POST)
+    @ResponseBody
     public Result update(HttpServletRequest res,String userName,String password,String operatePassword){
         boolean flag = loginService.update(userName,password,operatePassword);
         if(flag){

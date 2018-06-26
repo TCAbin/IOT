@@ -86,7 +86,7 @@ public class TimeToGetToken {
     /**
      * @author 260172
      * @date 2018/6/26 13:39
-     * 获取远程设备信息
+     * 获取设备信息
      */
     private DeviceData getDeviceData(Devices d){
         try {

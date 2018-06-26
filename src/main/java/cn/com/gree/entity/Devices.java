@@ -42,9 +42,13 @@ public class Devices {
     @Column
     private Integer maxHumidity;
 
+    /** 邮箱号 */
+    @Column
+    private String mail;
+
     /** 关联的设备 */
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "device_data")
+    @JoinColumn(name = "device_id")
     private List<DeviceData> deviceData;
 
     public Long getId() {
@@ -117,5 +121,13 @@ public class Devices {
 
     public void setDeviceData(List<DeviceData> deviceData) {
         this.deviceData = deviceData;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 }
