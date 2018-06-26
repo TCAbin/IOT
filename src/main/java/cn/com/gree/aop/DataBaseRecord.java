@@ -10,7 +10,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 @Aspect
 @Component(value = "DataBaseRecord")
@@ -26,11 +25,7 @@ public class DataBaseRecord {
         Object[] params = jp.getArgs();
         OperateLog ol = DataBaseLogParse.parse(jp.getTarget().getClass(),jp.getSignature().getName());
         if(ol != null){
-            for (Object o : params){
-                if(o instanceof HttpServletRequest){
-//                    ol.setUserId(MaterielUtil.getAppAccount(HttpServletRequest o));
-                }
-            }
+            ol.setUserName("admin");
             baseDao.save(ol);
         }
     }

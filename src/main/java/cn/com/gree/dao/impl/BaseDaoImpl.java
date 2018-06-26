@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class BaseDaoImpl implements BaseDao {
     private EntityManager em;
 
     @Override
+    @Transactional
     public <T> void save(T entity) {
         em.persist(entity);
     }
@@ -32,11 +34,13 @@ public class BaseDaoImpl implements BaseDao {
     }
 
     @Override
+    @Transactional
     public <T> void update(T entity) {
         em.merge(entity);
     }
 
     @Override
+    @Transactional
     public <T> void delete(T entity) {
         if(entity != null){
             em.remove(entity);
@@ -83,6 +87,7 @@ public class BaseDaoImpl implements BaseDao {
     }
 
     @Override
+    @Transactional
     public int executeJpql(String jpql, Object... objects) {
         Query query = createQuery(jpql,objects);
         return query.executeUpdate();

@@ -14,15 +14,21 @@ public class DeviceData {
 
     /** 设备温度 */
     @Column
-    private Integer temperature;
+    private Double temperature;
 
     /** 设备湿度 */
     @Column
-    private Integer humidity;
+    private Double humidity;
 
-    /** 是否在线 */
+    /** 设备status
+     * 1 online 在线
+     * 2 offline 离线
+     * 3 inbox  ？？
+     * 4 abnormal 异常
+     * 5 未知
+     * */
     @Column
-    private boolean onLine;
+    private Integer deviceStatus;
 
     /** 数据时间 */
     @Column
@@ -32,6 +38,11 @@ public class DeviceData {
     @Column
     private Date time;
 
+    /** 关联的设备 */
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "device_data")
+    private Devices device;
+
     public Long getId() {
         return id;
     }
@@ -40,28 +51,28 @@ public class DeviceData {
         this.id = id;
     }
 
-    public Integer getTemperature() {
+    public Double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(Integer temperature) {
+    public void setTemperature(Double temperature) {
         this.temperature = temperature;
     }
 
-    public Integer getHumidity() {
+    public Double getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(Integer humidity) {
+    public void setHumidity(Double humidity) {
         this.humidity = humidity;
     }
 
-    public boolean isOnLine() {
-        return onLine;
+    public Integer getDeviceStatus() {
+        return deviceStatus;
     }
 
-    public void setOnLine(boolean onLine) {
-        this.onLine = onLine;
+    public void setDeviceStatus(Integer deviceStatus) {
+        this.deviceStatus = deviceStatus;
     }
 
     public Date getEventTime() {
@@ -78,5 +89,13 @@ public class DeviceData {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public Devices getDevice() {
+        return device;
+    }
+
+    public void setDevice(Devices device) {
+        this.device = device;
     }
 }

@@ -42,6 +42,7 @@ public class Devices {
     @Column
     private Integer maxHumidity;
 
+    /** 关联的设备 */
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "device_data")
     private List<DeviceData> deviceData;

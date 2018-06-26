@@ -22,11 +22,15 @@ public class User {
     @Column(length = 30)
     private String optionPassWord;
 
+    /** 是否正在设置  0 , 1*/
+    @Column
+    private boolean isOnOption;
+
     public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -53,4 +57,13 @@ public class User {
     public void setOptionPassWord(String optionPassWord) {
         this.optionPassWord = optionPassWord;
     }
+
+    public boolean isOnOption() {
+        return isOnOption;
+    }
+
+    public void setOnOption(boolean onOption) {
+        isOnOption = onOption;
+    }
+
 }
