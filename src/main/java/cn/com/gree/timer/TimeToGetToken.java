@@ -11,15 +11,13 @@ import cn.com.gree.utils.IOTUtils.utils.JsonUtil;
 import cn.com.gree.utils.IOTUtils.utils.StreamClosedHttpResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-//@Component
+@Component
 public class TimeToGetToken {
 
     @Resource(name = "BaseDao")
@@ -30,7 +28,7 @@ public class TimeToGetToken {
      * @date 2018/6/26 9:33
      * 每小时刷新token
      */
-//    @Scheduled(cron = "")
+//    @Scheduled(cron = "0 59 * * * *")
     private void getToken(){
         refreshToken();
     }
@@ -40,7 +38,7 @@ public class TimeToGetToken {
      * @date 2018/6/26 9:51
      * 每十分钟获取一次设备数据
      */
-//    @Scheduled(cron = "")
+//    @Scheduled(cron = "0 10 * * * *")
     private void getDeviceData(){
         setDeviceData();
     }
@@ -92,14 +90,14 @@ public class TimeToGetToken {
      */
     private DeviceData getDeviceData(Devices d){
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMdd'T'HHmmss'Z'");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'");
             DeviceData dd = new DeviceData();
             dd.setDevice(d);
             dd.setTime(new Date());
-            TokenData td = (TokenData) baseDao.getSingleResultByLimit(" select t from TokenData t from order by t.date desc ",1);
+            TokenData td = (TokenData) baseDao.getSingleResultByLimit(" select t from TokenData t order by t.date desc ",1);
             if(td != null){
                 Map<String,String> map = getRemoteData(d.getDeviceId(),td.getToken());
-                dd.setEventTime(sdf.parse(map.get("eventTime")));
+                dd.setEventTime(setZone(sdf.parse(map.get("eventTime")),8));
                 dd.setTemperature(Double.valueOf(map.get("Temperature")));
                 dd.setHumidity(Double.valueOf(map.get("humidity")));
                 dd.setDeviceStatus(Integer.valueOf(map.get("status")));
@@ -109,6 +107,18 @@ public class TimeToGetToken {
             System.out.println("设置设备" + d.getDeviceId() + "数据失败。" + e.getMessage());
             return null;
         }
+    }
+
+    /**
+     * @autor 260172
+     * @date 2018/6/26 14:53
+     * 增加hour小时
+     */
+    private Date setZone(Date date,int hour){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.HOUR, hour);
+        return cal.getTime();
     }
 
     /**
