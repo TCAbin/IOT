@@ -20,7 +20,7 @@ public class DataServiceImpl implements DataService {
     @Override
     public List<JSONObject> getMaxDateData() {
         List<JSONObject> objects = new ArrayList<>();
-        String jpql = " select o from DeviceData where in (select max(time) from test group by device) ";
+        String jpql = " select o from DeviceData o where o.time in (select max(time) from DeviceData group by device) ";
         List<DeviceData> list = baseDao.getByJpql(jpql);
         for(DeviceData d : list){
             JSONObject object = new JSONObject();
