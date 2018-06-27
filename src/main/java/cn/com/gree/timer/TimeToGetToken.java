@@ -103,8 +103,8 @@ public class TimeToGetToken {
                 dd.setHumidity(Double.valueOf(map.get("humidity")));
                 dd.setDeviceStatus(Integer.valueOf(map.get("status")));
 
-                if(dd.getTemperature() < d.getMinTemperature() || dd.getTemperature() > d.getMaxTemperature() ||
-                        dd.getHumidity() < d.getMinHumidity() || dd.getHumidity() > d.getMaxHumidity()){
+                if(d.isPropelMail() && (dd.getTemperature() < d.getMinTemperature() || dd.getTemperature() > d.getMaxTemperature() ||
+                        dd.getHumidity() < d.getMinHumidity() || dd.getHumidity() > d.getMaxHumidity())){
                     // 报警邮件
                 }
             }

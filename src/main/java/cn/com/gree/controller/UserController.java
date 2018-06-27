@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("user")
@@ -22,8 +21,13 @@ public class UserController {
      * 更新密码
      */
     @RequestMapping(value = "update",method = RequestMethod.POST)
-    public Result update(HttpServletRequest res, String userName, String password, String operatePassword){
-        boolean flag = userService.update(userName,password,operatePassword);
+    public Result update(String userName,String password, String newPassword,String operatePassword, String newOperatePassword){
+        boolean flag = false;
+        if(password != null && newPassword != null){
+            flag = userService.updateLoginPassword(userName,password,newPassword);
+        }else if(operatePassword != null && newOperatePassword != null){
+            flag = userService.updateOptionPassword(userName,operatePassword,newOperatePassword);
+        }
         if(flag){
             return new Result(true,"success");
         } else {

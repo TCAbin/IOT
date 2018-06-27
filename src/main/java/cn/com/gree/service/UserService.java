@@ -5,7 +5,15 @@ public interface UserService {
     /**
      * @autor 260172
      * @date 2018/6/26 15:54
-     * 更新密码
+     * 更新登录密码
      */
-    boolean update(String userName,String password,String operatePassword);
+    boolean updateLoginPassword(String userName,String password,String newPassword);
+
+    /**
+     * @author 260172
+     * @date 2018/6/27 11:18
+     * 更新设置密码
+     */
+    boolean updateOptionPassword(String userName,String optionPassword,String newOptionPassword);
+
 }
