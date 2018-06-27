@@ -1,5 +1,7 @@
 package cn.com.gree.controller;
 
+import cn.com.gree.aop.annotation.DataBaseLog;
+import cn.com.gree.aop.annotation.Operate;
 import cn.com.gree.service.UserService;
 import cn.com.gree.utils.Result;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ public class UserController {
      * 更新密码
      */
     @RequestMapping(value = "update",method = RequestMethod.POST)
+    @DataBaseLog(operate = Operate.UPDATE,table = "t_user",module = "用户模块")
     public Result update(String userName,String password, String newPassword,String operatePassword, String newOperatePassword){
         boolean flag = false;
         if(password != null && newPassword != null){
