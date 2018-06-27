@@ -25,19 +25,5 @@ public class LoginServiceImpl implements LoginService {
         return password.equals(user.getLoginPassWord());
     }
 
-    @Override
-    public boolean update(String userName, String password, String operatePassword) {
-        if(userName == null || "".equals(userName)){
-            return false;
-        }
-        User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+userName+"'").get(0);
-        if(password != null && !"".equals(password)){
-            user.setLoginPassWord(password);
-        }
-        if(operatePassword != null && !"".equals(operatePassword)){
-            user.setOptionPassWord(operatePassword);
-        }
-        baseDao.save(user);
-        return true;
-    }
+
 }
