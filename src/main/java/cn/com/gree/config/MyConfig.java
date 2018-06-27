@@ -1,5 +1,6 @@
 package cn.com.gree.config;
 
+import cn.com.gree.filter.UserSecurityInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -27,6 +28,8 @@ public class MyConfig implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-
+        registry.addInterceptor(new UserSecurityInterceptor())
+                .addPathPatterns("/**")
+                .excludePathPatterns("/login");
     }
 }

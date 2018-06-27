@@ -22,7 +22,9 @@ public class MySessionListener implements HttpSessionListener {
     @Override
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
         User user = (User) baseDao.getByJpql(" select u from User u where u.userName = 'admin' ").get(0);
-        user.setOnOption(false);
-        baseDao.save(user);
+        if(user.isOnOption()){
+            user.setOnOption(false);
+            baseDao.save(user);
+        }
     }
 }

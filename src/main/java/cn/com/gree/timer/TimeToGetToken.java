@@ -11,6 +11,7 @@ import cn.com.gree.utils.IOTUtils.utils.JsonUtil;
 import cn.com.gree.utils.IOTUtils.utils.StreamClosedHttpResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -28,7 +29,7 @@ public class TimeToGetToken {
      * @date 2018/6/26 9:33
      * 每小时刷新token
      */
-//    @Scheduled(cron = "0 59 * * * *")
+    @Scheduled(cron = "0 45 * * * *")
     private void getToken(){
         refreshToken();
     }
@@ -38,7 +39,7 @@ public class TimeToGetToken {
      * @date 2018/6/26 9:51
      * 每十分钟获取一次设备数据
      */
-//    @Scheduled(cron = "0 10 * * * *")
+    @Scheduled(cron = "0 0/10 * * * *")
     private void getDeviceData(){
         setDeviceData();
     }
