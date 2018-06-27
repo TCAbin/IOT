@@ -42,6 +42,9 @@ public class Devices {
     @Column
     private Integer maxHumidity;
 
+    /** 是否启用邮件推送 */
+    private boolean propelMail;
+
     /** 邮箱号 */
     @Column
     private String mail;
@@ -121,6 +124,14 @@ public class Devices {
 
     public void setDeviceData(List<DeviceData> deviceData) {
         this.deviceData = deviceData;
+    }
+
+    public boolean isPropelMail() {
+        return propelMail;
+    }
+
+    public void setPropelMail(boolean propelMail) {
+        this.propelMail = propelMail;
     }
 
     public String getMail() {
