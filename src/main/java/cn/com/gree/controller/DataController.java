@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
+@RequestMapping("data")
 public class DataController {
 
     @Resource(name = "DataService")
