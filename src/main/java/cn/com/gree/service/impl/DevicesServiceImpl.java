@@ -18,7 +18,27 @@ public class DevicesServiceImpl implements DevicesService {
 
     @Override
     public List<Devices> getDevices() {
-        return baseDao.getByJpql(" select o from Devices o group by o.deviceId");
+        return baseDao.getByJpql(" select o from Devices o group by o.deviceId ");
+    }
+
+    @Override
+    public List<JSONObject> getDevicesOption() {
+        List<Devices> devices = getDevices();
+        List<JSONObject> result = new ArrayList<>();
+        for(Devices d : devices){
+            JSONObject object = new JSONObject();
+            object.put("id",d.getId());
+            object.put("area",d.getArea());
+            object.put("deviceName",d.getDeviceName());
+            object.put("minTemperature",d.getMinTemperature());
+            object.put("maxTemperature",d.getMaxTemperature());
+            object.put("minHumidity",d.getMinHumidity());
+            object.put("maxHumidity",d.getMaxHumidity());
+            object.put("mail",d.getMail());
+            object.put("propelMail",d.isPropelMail());
+            result.add(object);
+        }
+        return result;
     }
 
     @Override
@@ -32,5 +52,13 @@ public class DevicesServiceImpl implements DevicesService {
             objects.add(object);
         }
         return objects;
+    }
+
+    @Override
+    public boolean updateOption(List<Devices> devices) {
+        for(Devices device : devices){
+            baseDao.update(device);
+        }
+        return true;
     }
 }

@@ -8,4 +8,18 @@ public interface LoginService {
      */
     boolean checkUser(String userName,String password);
 
+
+    /**
+     * @author 260172
+     * @date 2018/6/28 13:46
+     * 检查设置密码
+     */
+    int checkOptionPassword(String userName,String password);
+
+    /**
+     * @author 260172
+     * @date 2018/6/28 13:46
+     * 退出设置
+     */
+    void logoutOption(String userName);
 }

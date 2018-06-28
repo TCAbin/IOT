@@ -9,9 +9,9 @@ import javax.annotation.Resource;
 
 @Service("LoginService")
 public class LoginServiceImpl implements LoginService {
+
     @Resource(name = "BaseDao")
     private BaseDao baseDao;
-
 
     @Override
     public boolean checkUser(String userName, String password) {
@@ -23,6 +23,28 @@ public class LoginServiceImpl implements LoginService {
         }
         User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+userName+"'").get(0);
         return password.equals(user.getLoginPassWord());
+    }
+
+    @Override
+    public int checkOptionPassword(String userName, String password) {
+        User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+userName+"'").get(0);
+        if(password.equals(user.getOptionPassWord())){
+            if(user.isOnOption()){
+                return 1;
+            }
+            return 0;
+        }else{
+            return 2;
+        }
+    }
+
+    @Override
+    public void logoutOption(String userName) {
+        User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+userName+"'").get(0);
+        if(user.isOnOption()){
+            user.setOnOption(false);
+            baseDao.save(user);
+        }
     }
 
 
