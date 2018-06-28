@@ -82,12 +82,13 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     public DeviceData getDeviceData(Devices d) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'");
-            DeviceData dd = new DeviceData();
-            dd.setDevice(d);
-            dd.setTime(new Date());
+            DeviceData dd = null;
             // 获取最新的token
             TokenData td = (TokenData) baseDao.getSingleResultByLimit(" select t from TokenData t order by t.date desc ",1);
             if(td != null){
+                dd = new DeviceData();
+                dd.setDevice(d);
+                dd.setTime(new Date());
                 Map<String,String> map = DataCollector.getRemoteData(d.getDeviceId(),td.getToken());
                 dd.setEventTime(setZone(sdf.parse(map.get("eventTime")),8));
                 dd.setTemperature(Double.valueOf(map.get("Temperature")));
