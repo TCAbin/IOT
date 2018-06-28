@@ -7,6 +7,7 @@ import cn.com.gree.entity.Devices;
 import cn.com.gree.entity.TokenData;
 import cn.com.gree.service.DeviceDataService;
 import cn.com.gree.service.DevicesService;
+import cn.com.gree.service.TokenDataService;
 import cn.com.gree.utils.IOTUtils.DataCollector;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,9 @@ public class DeviceDataServiceImpl implements DeviceDataService {
 
     @Resource(name = "DevicesService")
     private DevicesService devicesService;
+
+    @Resource(name = "TokenDataService")
+    private TokenDataService tokenDataService;
 
 
     @Override
@@ -92,6 +96,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
             }
             return dd;
         } catch (Exception e) {
+            tokenDataService.refreshToken();
             System.out.println("设置设备" + d.getDeviceId() + "数据失败。" + e.getMessage());
             return null;
         }
