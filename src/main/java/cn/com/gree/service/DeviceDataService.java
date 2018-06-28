@@ -31,6 +31,21 @@ public interface DeviceDataService {
      */
     DeviceData getDeviceData(Devices d);
 
+
+    /**
+     * @author 260172
+     * @date 2018/6/28 8:43
+     * 获取今天温度数据
+     */
+    JSONObject getTodayTemperatureDeviceData();
+
+
+    /**
+     * @author 260172
+     * @date 2018/6/28 8:48
+     * 获取今天湿度数据
+     */
+    JSONObject getTodayHumidityDeviceData();
     /**
      * @author 260172
      * @date 2018/6/27 18:01

@@ -32,7 +32,43 @@ public class DataController {
         }
     }
 
+    /**
+     * @author 260172
+     * @date 2018/6/28 8:43
+     * 获取今天温度数据
+     */
+    @RequestMapping("getTodayTemperatureDeviceData")
+    public Result getTodayTemperatureDeviceData(){
+        JSONObject object = deviceDataService.getTodayTemperatureDeviceData();
+        if(object.size() > 0){
+            return new Result(true,"success", object);
+        }else{
+            return new Result(false,"data not found");
+        }
+    }
 
+    /**
+     * @author 260172
+     * @date 2018/6/28 10:06
+     * 获取今天湿度数据
+     */
+    @RequestMapping("getTodayHumidityDeviceData")
+    public Result getTodayHumidityDeviceData(){
+        JSONObject object = deviceDataService.getTodayHumidityDeviceData();
+        if(object.size() > 0){
+            return new Result(true,"success", object);
+        }else{
+            return new Result(false,"data not found");
+        }
+    }
+
+
+
+    /**
+     * @author 260172
+     * @date 2018/6/28 8:31
+     * 获取历史数据
+     */
     @RequestMapping("getDeviceHistoryData")
     public Result getDeviceHistoryData(String id, String type, Date startTime, Date endTime){
         JSONObject object = deviceDataService.getDeviceHistoryData(id, type, startTime, endTime);

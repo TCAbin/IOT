@@ -187,12 +187,12 @@ public class BaseDaoImpl implements BaseDao {
 
     @Override
     public <T> List<T> getByNativeSQL(Class<T> clazz, String sql) {
-        return em.createNamedQuery(sql,clazz).getResultList();
+        return em.createNativeQuery(sql,clazz).getResultList();
     }
 
     @Override
     public <T> List<T> getByNativeSQL(Class<T> clazz, String sql, Object... objects) {
-        Query query = em.createNamedQuery(sql,clazz);
+        Query query = em.createNativeQuery(sql,clazz);
         if(objects != null){
             for(int i = 0 ; i < objects.length ; i++){
                 query.setParameter(i + 1, objects[i]);
