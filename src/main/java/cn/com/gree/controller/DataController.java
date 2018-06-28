@@ -1,20 +1,21 @@
 package cn.com.gree.controller;
 
-import cn.com.gree.service.DataService;
+import cn.com.gree.service.DeviceDataService;
 import cn.com.gree.utils.Result;
 import net.sf.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("data")
 public class DataController {
 
-    @Resource(name = "DataService")
-    private DataService dataService;
+    @Resource(name = "DeviceDataService")
+    private DeviceDataService deviceDataService;
 
     /**
      * @author 260172
@@ -23,11 +24,23 @@ public class DataController {
      */
     @RequestMapping("getDeviceData")
     public Result getDeviceData(){
-        List<JSONObject> list = dataService.getMaxDateData();
+        List<JSONObject> list = deviceDataService.getMaxDateData();
         if(list != null && list.size() > 0){
             return new Result(true,"success", list);
         }else{
             return new Result(false,"data not found");
         }
     }
+
+
+    @RequestMapping("getDeviceHistoryData")
+    public Result getDeviceHistoryData(String id, String type, Date startTime, Date endTime){
+        JSONObject object = deviceDataService.getDeviceHistoryData(id, type, startTime, endTime);
+        if(object.size() > 0){
+            return new Result(true,"success", object);
+        }else{
+            return new Result(false,"data not found");
+        }
+    }
+
 }
