@@ -167,7 +167,7 @@ public class SpringMail{
             //发送
             mailSender.send(mimeMessage);
         } catch (MailSendException e){
-            throw new IllegalArgumentException("attachments is over size.");
+            throw new IllegalArgumentException(e.getMessage());
         } catch (MessagingException e) {
             throw new RuntimeException("send mail failed.");
         }
