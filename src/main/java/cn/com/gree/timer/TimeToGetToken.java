@@ -6,7 +6,7 @@ import cn.com.gree.entity.Devices;
 import cn.com.gree.service.DeviceDataService;
 import cn.com.gree.service.DevicesService;
 import cn.com.gree.service.TokenDataService;
-import net.sf.json.JSONArray;
+import cn.com.gree.utils.Result;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -52,9 +52,15 @@ public class TimeToGetToken {
      */
     @Scheduled(cron = "0 0/10 * * * *")
     private void getDeviceData(){
-        setDeviceData();
-        List<JSONObject> objects = deviceDataService.getMaxDateData();
-        messagingTemplate.convertAndSend("/topic/data/hello",JSONArray.fromObject(objects).toString());
+        boolean flag = setDeviceData();
+        Result result = null;
+        if(flag){
+            List<JSONObject> objects = deviceDataService.getMaxDateData();
+            result = new Result(true,"success",objects);
+        }else{
+            result = new Result(false,"huawei interface error");
+        }
+        messagingTemplate.convertAndSend("/topic/data/hello",JSONObject.fromObject(result).toString());
     }
 
 
@@ -64,15 +70,18 @@ public class TimeToGetToken {
      * @date 2018/6/26 13:42
      * 设置设备信息
      */
-    private void setDeviceData(){
+    private boolean setDeviceData(){
         List<Devices> devices = devicesService.getDevices();
         for(Devices d : devices){
             DeviceData dd = deviceDataService.getDeviceData(d);
             if(dd != null && deviceDataService.judgeDeviceDataIsExist(dd)){
                 sendMail(d,dd);
                 baseDao.save(dd);
+            } else {
+                return false;
             }
         }
+        return true;
     }
 
 

@@ -64,6 +64,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
             object.put("humidity", d.getHumidity() + "%");
             object.put("eventTime",sdf.format(d.getEventTime()));
             object.put("onLine",d.getDeviceStatus());
+            object.put("xAxis",d.getTime());
             objects.add(object);
 
         }
