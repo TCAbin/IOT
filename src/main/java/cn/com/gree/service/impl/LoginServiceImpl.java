@@ -14,20 +14,20 @@ public class LoginServiceImpl implements LoginService {
     private BaseDao baseDao;
 
     @Override
-    public boolean checkUser(String userName, String password) {
-        if(userName == null || "".equals(userName)){
+    public boolean checkUser(String username, String password) {
+        if(username == null || "".equals(username)){
             return false;
         }
         if(password == null || "".equals(password)){
             return false;
         }
-        User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+userName+"'").get(0);
+        User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+username+"'").get(0);
         return password.equals(user.getLoginPassWord());
     }
 
     @Override
-    public int checkOptionPassword(String userName, String password) {
-        User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+userName+"'").get(0);
+    public int checkOptionPassword(String username, String password) {
+        User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+username+"'").get(0);
         if(password.equals(user.getOptionPassWord())){
             if(user.isOnOption()){
                 return 1;
@@ -39,8 +39,8 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public void logoutOption(String userName) {
-        User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+userName+"'").get(0);
+    public void logoutOption(String username) {
+        User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+username+"'").get(0);
         if(user.isOnOption()){
             user.setOnOption(false);
             baseDao.save(user);

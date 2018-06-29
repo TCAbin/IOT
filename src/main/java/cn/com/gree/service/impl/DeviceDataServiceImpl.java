@@ -51,11 +51,12 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         for(DeviceData d : list){
             JSONObject object = new JSONObject();
             Devices devices = d.getDevice();
-            if(d.getTemperature() < devices.getMinTemperature() || d.getTemperature() > devices.getMaxTemperature() ||
-                    d.getHumidity() < devices.getMinHumidity() || d.getHumidity() > devices.getMaxHumidity()){
-                object.put("alert",true);
+            if(d.getTemperature() < devices.getMinTemperature() || d.getTemperature() > devices.getMaxTemperature()){
+                object.put("alert","1");
+            } else if(d.getHumidity() < devices.getMinHumidity() || d.getHumidity() > devices.getMaxHumidity()){
+                object.put("alert","2");
             } else {
-                object.put("alert",false);
+                object.put("alert","0");
             }
             object.put("deviceName",devices.getDeviceName());
             object.put("area",devices.getArea());

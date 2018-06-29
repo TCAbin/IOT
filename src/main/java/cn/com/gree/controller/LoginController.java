@@ -22,10 +22,10 @@ public class LoginController {
      * 登录函数
      */
     @RequestMapping(value = "login",method = RequestMethod.POST)
-    public Result login(HttpServletRequest res,String userName, String password){
-        boolean flag = loginService.checkUser(userName, password);
+    public Result login(HttpServletRequest res,String username, String password){
+        boolean flag = loginService.checkUser(username, password);
         if(flag){
-            res.getSession().setAttribute("user",userName);
+            res.getSession().setAttribute("user",username);
             return new Result(true,"success");
         } else {
             return new Result(false,"failed");
@@ -39,8 +39,8 @@ public class LoginController {
      */
     @RequestMapping(value = "loginOption",method = RequestMethod.POST)
     public Result loginOption(HttpServletRequest res,String password){
-        String userName = String.valueOf(res.getSession().getAttribute("user"));
-        int flag = loginService.checkOptionPassword(userName, password);
+        String username = String.valueOf(res.getSession().getAttribute("user"));
+        int flag = loginService.checkOptionPassword(username, password);
         if(flag == 0){
             return new Result(true,"success");
         } else if(flag == 1){
@@ -51,14 +51,27 @@ public class LoginController {
     }
 
     /**
+     * @author Abin
+     * @date 2018/6/29 10:49
+     * 退出登录
+     */
+    @RequestMapping(value = "logout")
+    public Result logout(HttpServletRequest res){
+        String username = String.valueOf(res.getSession().getAttribute("user"));
+        loginService.logoutOption(username);
+        res.getSession().invalidate();
+        return new Result(true,"success");
+    }
+
+    /**
      * @author 260172
      * @date 2018/6/28 13:45
      * 退出登录设置
      */
     @RequestMapping(value = "logoutOption")
     public Result logoutOption(HttpServletRequest res){
-        String userName = String.valueOf(res.getSession().getAttribute("user"));
-        loginService.logoutOption(userName);
+        String username = String.valueOf(res.getSession().getAttribute("user"));
+        loginService.logoutOption(username);
         return new Result(true,"success");
     }
 

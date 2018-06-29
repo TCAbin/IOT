@@ -6,6 +6,10 @@ import cn.com.gree.entity.Devices;
 import cn.com.gree.service.DeviceDataService;
 import cn.com.gree.service.DevicesService;
 import cn.com.gree.service.TokenDataService;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +32,9 @@ public class TimeToGetToken {
     private TokenDataService tokenDataService;
 
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
     /**
      * @author 260172
      * @date 2018/6/26 9:33
@@ -46,6 +53,8 @@ public class TimeToGetToken {
     @Scheduled(cron = "0 0/10 * * * *")
     private void getDeviceData(){
         setDeviceData();
+        List<JSONObject> objects = deviceDataService.getMaxDateData();
+        messagingTemplate.convertAndSend("/topic/data/hello",JSONArray.fromObject(objects).toString());
     }
 
 

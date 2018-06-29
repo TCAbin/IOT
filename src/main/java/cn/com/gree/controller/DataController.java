@@ -3,6 +3,7 @@ package cn.com.gree.controller;
 import cn.com.gree.service.DeviceDataService;
 import cn.com.gree.utils.Result;
 import net.sf.json.JSONObject;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,15 @@ public class DataController {
 
     @Resource(name = "DeviceDataService")
     private DeviceDataService deviceDataService;
+
+
+    /**
+     * @author Abin
+     * @date 2018/6/29 10:24
+     * 消息订阅接口，用于消息推送
+     */
+    @MessageMapping("/timeToGetDeviceData")
+    public void toTopic() {}
 
     /**
      * @author 260172
