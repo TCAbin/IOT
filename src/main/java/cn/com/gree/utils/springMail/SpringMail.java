@@ -43,6 +43,7 @@ public class SpringMail{
         try {
             in = SpringMail.class.getResourceAsStream("/mail.properties");
             properties = new Properties();
+            properties.load(in);
             in.close();
             //设置邮件服务器
             mailSender.setHost(properties.getProperty("mailHost"));
@@ -56,6 +57,13 @@ public class SpringMail{
             mailSender.setDefaultEncoding("UTF-8");
             //设置邮箱协议
             mailSender.setProtocol(JavaMailSenderImpl.DEFAULT_PROTOCOL);
+
+            // SSL验证
+            properties.clear();
+            properties.setProperty("mail.smtp.ssl.enable", "true"); // 启用ssl
+            properties.setProperty("mail.smtp.auth","true"); // 开启账户验证
+            mailSender.setJavaMailProperties(properties);
+
         } catch (IOException e) {
             throw new ExceptionInInitializerError("mail config init failed.");
         }
@@ -147,7 +155,7 @@ public class SpringMail{
             //设置标题
             mmh.setSubject(title);
             //设置邮件内容
-            mmh.setText(text);
+            mmh.setText(text,true);
             //设置附件  并且附件总大小不能超过5M
             if(files != null && files.size() > 0){
                 for(File file : files){
@@ -160,7 +168,7 @@ public class SpringMail{
             mailSender.send(mimeMessage);
         } catch (MailSendException e){
             throw new IllegalArgumentException("attachments is over size.");
-        }catch (MessagingException e) {
+        } catch (MessagingException e) {
             throw new RuntimeException("send mail failed.");
         }
     }
