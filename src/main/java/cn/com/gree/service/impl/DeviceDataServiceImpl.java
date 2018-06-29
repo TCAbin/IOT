@@ -40,11 +40,14 @@ public class DeviceDataServiceImpl implements DeviceDataService {
 //                .append(" (").append(sql1).append(") d")
 //                .append(" on c.device = d.device and c.time = d.time ");
 //        List<DeviceData> list = baseDao.getByJpql(jpql.toString());
-        String str = " select d.* from " +
-                "( select a.device_id , max(a.time) as time from t_device_data a group by a.device_id ) c " +
-                " left join " +
-                "( select b.* from t_device_data b ) d " +
-                "on c.device_id = d.device_id and c.time = d.time ";
+//        String str = " select d.* from " +
+//                "( select a.device_id , max(a.time) as time from t_device_data a group by a.device_id ) c " +
+//                " left join " +
+//                "( select b.* from t_device_data b ) d " +
+//                "on c.device_id = d.device_id and c.time = d.time ";
+        String str = " select o.* from t_device_data o , " +
+                "(select device_id,max(time) as time from t_device_data group by device_id) a " +
+                "where a.device_id = o.device_id and o.time = a.time ";
         List<DeviceData> list = baseDao.getByNativeSQL(DeviceData.class,str);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
