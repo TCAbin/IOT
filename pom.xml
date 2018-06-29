@@ -62,6 +62,17 @@
       <artifactId>spring-boot-starter-test</artifactId>
     </dependency>
 
+    <!-- webSocket -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-websocket</artifactId>
+    </dependency>
+
+    <!-- thymeleaf -->
+      <!--<dependency>-->
+          <!--<groupId>org.springframework.boot</groupId>-->
+          <!--<artifactId>spring-boot-starter-thymeleaf</artifactId>-->
+      <!--</dependency>-->
 
 
     <!-- jdbc -->
@@ -130,6 +141,7 @@
       <artifactId>axis</artifactId>
       <version>1.4</version>
     </dependency>
+
     <!--邮件 -->
     <dependency>
       <groupId>javax.mail</groupId>
@@ -139,12 +151,15 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context-support</artifactId>
-      <version>4.3.9.RELEASE</version>
+      <version>5.0.6.RELEASE</version>
     </dependency>
+
+
+
   </dependencies>
 
   <build>
-    <finalName>cn.com.gree.hefei</finalName>
+    <finalName>iot</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>
