@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("user")
@@ -37,4 +38,15 @@ public class UserController {
             return new Result(false,"failed");
         }
     }
+
+    /**
+     * @author Abin
+     * @date 2018/6/30 14:59
+     * 检测session
+     */
+    @RequestMapping(value = "checkSession")
+    public Result checkSession(HttpServletRequest request){
+        return new Result(true,"success");
+    }
+
 }
