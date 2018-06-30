@@ -59,10 +59,11 @@ public class SpringMail{
             mailSender.setProtocol(JavaMailSenderImpl.DEFAULT_PROTOCOL);
 
             // SSL验证
-            properties.clear();
-            properties.setProperty("mail.smtp.ssl.enable", "true"); // 启用ssl
-            properties.setProperty("mail.smtp.auth","true"); // 开启账户验证
-            mailSender.setJavaMailProperties(properties);
+//            properties.clear();
+//            properties.setProperty("mail.smtp.ssl.enable", "true"); // 启用ssl
+//            properties.setProperty("mail.smtp.auth","true"); // 开启账户验证
+//            properties.setProperty("mail.debug","true");
+//            mailSender.setJavaMailProperties(properties);
 
         } catch (IOException e) {
             throw new ExceptionInInitializerError("mail config init failed.");
