@@ -59,9 +59,9 @@ public class TimeToGetToken {
             List<JSONObject> objects = deviceDataService.getMaxDateData();
             result = new Result(true,"success",objects);
         }else{
-            result = new Result(false,"huawei interface error");
+            result = new Result(false,"data acquisition problems,please wait for next fresh.");
         }
-        messagingTemplate.convertAndSend("/topic/data/hello",JSONObject.fromObject(result).toString());
+        messagingTemplate.convertAndSend("/topic/data/timeToGetDeviceData",JSONObject.fromObject(result).toString());
     }
 
 

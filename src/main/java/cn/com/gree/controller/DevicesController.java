@@ -1,5 +1,7 @@
 package cn.com.gree.controller;
 
+import cn.com.gree.aop.annotation.DataBaseLog;
+import cn.com.gree.aop.annotation.Operate;
 import cn.com.gree.entity.Devices;
 import cn.com.gree.service.DevicesService;
 import cn.com.gree.utils.Result;
@@ -55,6 +57,7 @@ public class DevicesController {
      * 更新设备信息
      */
     @RequestMapping(value = "updateOption",method = RequestMethod.POST)
+    @DataBaseLog(operate = Operate.UPDATE,table = "t_devices",module = "设备模块")
     public Result updateOption(@RequestBody List<Devices>devices){
         devicesService.updateOption(devices);
         return new Result(true,"success");
