@@ -19,9 +19,11 @@ public class TokenDataServiceImpl implements TokenDataService {
     @Override
     public void refreshToken() {
         String token = DataCollector.getToken();
-        TokenData data = new TokenData();
-        data.setDate(new Date());
-        data.setToken(token);
-        baseDao.save(data);
+        if(token != null){
+            TokenData data = new TokenData();
+            data.setDate(new Date());
+            data.setToken(token);
+            baseDao.save(data);
+        }
     }
 }
