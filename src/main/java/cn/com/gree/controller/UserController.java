@@ -25,17 +25,20 @@ public class UserController {
      */
     @RequestMapping(value = "update",method = RequestMethod.POST)
     @DataBaseLog(operate = Operate.UPDATE,table = "t_user",module = "用户模块")
-    public Result update(String userName,String password, String newPassword,String operatePassword, String newOperatePassword){
-        boolean flag = false;
+    public Result update(HttpServletRequest request,String password, String newPassword,String operatePassword, String newOperatePassword){
+        int flag = 0;
+        String username = String.valueOf(request.getSession().getAttribute("user"));
         if(password != null && newPassword != null){
-            flag = userService.updateLoginPassword(userName,password,newPassword);
+            flag = userService.updateLoginPassword(username,password,newPassword);
         }else if(operatePassword != null && newOperatePassword != null){
-            flag = userService.updateOptionPassword(userName,operatePassword,newOperatePassword);
+            flag = userService.updateOptionPassword(username,operatePassword,newOperatePassword);
         }
-        if(flag){
+        if(flag == 1){
+            return new Result(false,"1");
+        } else if (flag == 2) {
+            return new Result(false,"2"); // 原密码错误
+        }else {
             return new Result(true,"success");
-        } else {
-            return new Result(false,"failed");
         }
     }
 

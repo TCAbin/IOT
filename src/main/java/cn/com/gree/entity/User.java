@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class User {
     /**  id */
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /** 用户名 */

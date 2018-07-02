@@ -14,32 +14,32 @@ public class UserServiceImpl implements UserService {
     private BaseDao baseDao;
 
     @Override
-    public boolean updateLoginPassword(String userName, String password,String newPassword) {
+    public int updateLoginPassword(String userName, String password,String newPassword) {
         if(userName == null || "".equals(userName)){
-            return false;
+            return 1; // 用户名不能为空
         }
         User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+userName+"'").get(0);
         if(password != null && !"".equals(password) && user.getLoginPassWord().equals(password)){
             user.setLoginPassWord(newPassword);
         }else{
-            return false;
+            return 2; // 原密码错误
         }
         baseDao.save(user);
-        return true;
+        return 0;
     }
 
     @Override
-    public boolean updateOptionPassword(String userName, String optionPassword,String newOptionPassword) {
+    public int updateOptionPassword(String userName, String optionPassword,String newOptionPassword) {
         if(userName == null || "".equals(userName)){
-            return false;
+            return 1;
         }
         User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+userName+"'").get(0);
         if(optionPassword != null && !"".equals(optionPassword) && user.getOptionPassWord().equals(optionPassword)){
             user.setOptionPassWord(newOptionPassword);
         }else{
-            return false;
+            return 2;
         }
         baseDao.save(user);
-        return true;
+        return 0;
     }
 }

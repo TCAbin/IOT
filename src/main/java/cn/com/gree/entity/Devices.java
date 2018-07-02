@@ -9,7 +9,7 @@ public class Devices {
 
     /** id */
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /** 设备名称 */

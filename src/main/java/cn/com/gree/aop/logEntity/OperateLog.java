@@ -11,7 +11,7 @@ public class OperateLog {
      *
      */
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int opterateId;
     /**
      * 操作时间

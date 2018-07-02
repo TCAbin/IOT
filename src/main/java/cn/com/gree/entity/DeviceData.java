@@ -9,7 +9,7 @@ public class DeviceData {
 
     /** id */
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /** 设备温度 */

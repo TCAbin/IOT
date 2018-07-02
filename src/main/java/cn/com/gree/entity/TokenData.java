@@ -9,7 +9,7 @@ public class TokenData {
 
     /** id */
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /** token */
