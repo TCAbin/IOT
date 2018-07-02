@@ -105,6 +105,8 @@ public class DeviceDataServiceImpl implements DeviceDataService {
                 dd.setTemperature(Double.valueOf(map.get("Temperature")));
                 dd.setHumidity(Double.valueOf(map.get("humidity")));
                 dd.setDeviceStatus(Integer.valueOf(map.get("status")));
+            }else{
+                tokenDataService.refreshToken();
             }
             return dd;
         } catch (Exception e) {
