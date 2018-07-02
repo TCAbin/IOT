@@ -82,8 +82,11 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         List<QueryCondition> conditions = new ArrayList<>();
         QueryCondition condition = new QueryCondition("eventTime",QueryCondition.EQUAL,dd.getEventTime());
         conditions.add(condition);
-        long count = baseDao.getRecordCount(DeviceData.class,conditions);
-        return count == 0;
+        List<DeviceData> list = baseDao.get(DeviceData.class,conditions);
+        if(list != null && list.size() > 0){
+            return !list.get(0).getDeviceStatus().equals(dd.getDeviceStatus());
+        }
+        return true;
     }
 
     @Override
