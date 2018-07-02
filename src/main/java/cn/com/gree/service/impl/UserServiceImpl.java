@@ -14,11 +14,11 @@ public class UserServiceImpl implements UserService {
     private BaseDao baseDao;
 
     @Override
-    public int updateLoginPassword(String userName, String password,String newPassword) {
-        if(userName == null || "".equals(userName)){
+    public int updateLoginPassword(String username, String password,String newPassword) {
+        if(username == null || "".equals(username) || "null".equals(username)){
             return 1; // 用户名不能为空
         }
-        User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+userName+"'").get(0);
+        User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+username+"'").get(0);
         if(password != null && !"".equals(password) && user.getLoginPassWord().equals(password)){
             user.setLoginPassWord(newPassword);
         }else{
@@ -29,11 +29,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updateOptionPassword(String userName, String optionPassword,String newOptionPassword) {
-        if(userName == null || "".equals(userName)){
+    public int updateOptionPassword(String username, String optionPassword,String newOptionPassword) {
+        if(username == null || "".equals(username) || "null".equals(username)){
             return 1;
         }
-        User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+userName+"'").get(0);
+        User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+username+"'").get(0);
         if(optionPassword != null && !"".equals(optionPassword) && user.getOptionPassWord().equals(optionPassword)){
             user.setOptionPassWord(newOptionPassword);
         }else{
