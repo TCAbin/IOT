@@ -34,6 +34,6 @@ public interface DevicesService {
      * @date 2018/6/28 14:15
      * 保存设备信息数据
      */
-    boolean updateOption(List<Devices> devices);
+    boolean updateOption(String data);
 
 }

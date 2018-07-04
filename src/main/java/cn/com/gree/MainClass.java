@@ -3,6 +3,7 @@ package cn.com.gree;
 import cn.com.gree.utils.DateConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
@@ -15,9 +16,17 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class MainClass extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-//        System.setProperty("java.net.preferIPv4Stack", "true");
         SpringApplication.run(MainClass.class,args);
+    }
 
+    /**
+     * @author Abin
+     * @date 2018/7/4 12:50
+     * tomcat重建入口
+     */
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(MainClass.class);
     }
 
     /**

@@ -2,11 +2,9 @@ package cn.com.gree.controller;
 
 import cn.com.gree.aop.annotation.DataBaseLog;
 import cn.com.gree.aop.annotation.Operate;
-import cn.com.gree.entity.Devices;
 import cn.com.gree.service.DevicesService;
 import cn.com.gree.utils.Result;
 import net.sf.json.JSONObject;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,8 +56,8 @@ public class DevicesController {
      */
     @RequestMapping(value = "updateOption",method = RequestMethod.POST)
     @DataBaseLog(operate = Operate.UPDATE,table = "t_devices",module = "设备模块")
-    public Result updateOption(@RequestBody List<Devices>devices){
-        devicesService.updateOption(devices);
+    public Result updateOption(String data){
+        devicesService.updateOption(data);
         return new Result(true,"success");
     }
 

@@ -32,6 +32,8 @@ public class LoginServiceImpl implements LoginService {
             if(user.isOnOption()){
                 return 1;
             }
+            user.setOnOption(true);
+            baseDao.save(user);
             return 0;
         }else{
             return 2;

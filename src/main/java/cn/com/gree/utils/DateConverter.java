@@ -10,7 +10,8 @@ import java.util.Date;
 
 public class DateConverter implements Converter<String,Date> {
 
-    private static final String[] PETTERNS = {"yyyy-MM-dd HH:mm:ss", "yyyy:MM:dd HH:mm:ss", "yyyy-MM-dd", "yyyy:MM:dd", "HH:mm:ss"};
+    private static final String[] PETTERNS = {"yyyy-MM-dd HH:mm:ss", "yyyy:MM:dd HH:mm:ss",
+            "yyyy-MM-dd", "yyyy:MM:dd", "HH:mm:ss","yyyy-MM-dd HH:mm"};
 
 
     @Nullable

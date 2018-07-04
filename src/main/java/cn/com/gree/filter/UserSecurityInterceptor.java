@@ -15,7 +15,7 @@ public class UserSecurityInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String user = String.valueOf(request.getSession().getAttribute("user"));
         if(user == null || user.isEmpty() || "null".equals(user)){
-            response.setContentType("text/plain; chartset=UTF-8");
+            response.setContentType("application/json; chartset=UTF-8");
             PrintWriter writer = response.getWriter();
             writer.write(JSONObject.fromObject(new Result(false,"noSession")).toString());
             writer.flush();

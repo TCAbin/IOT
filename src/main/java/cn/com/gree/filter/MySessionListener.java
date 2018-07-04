@@ -5,6 +5,7 @@ import cn.com.gree.entity.User;
 
 import javax.annotation.Resource;
 import javax.servlet.annotation.WebListener;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
@@ -21,7 +22,12 @@ public class MySessionListener implements HttpSessionListener {
 
     @Override
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
-        User user = (User) baseDao.getByJpql(" select u from User u where u.userName = 'admin' ").get(0);
+        HttpSession session = httpSessionEvent.getSession();
+        String username = String.valueOf(session.getAttribute("user"));
+        if(username == null || "".equals(username) || "null".equals(username)){
+            return;
+        }
+        User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+username+"'").get(0);
         if(user.isOnOption()){
             user.setOnOption(false);
             baseDao.save(user);

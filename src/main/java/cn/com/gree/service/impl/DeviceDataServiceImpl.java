@@ -63,8 +63,8 @@ public class DeviceDataServiceImpl implements DeviceDataService {
             }
             object.put("deviceName",devices.getDeviceName());
             object.put("area",devices.getArea());
-            object.put("temperature",d.getTemperature() + "°C");
-            object.put("humidity", d.getHumidity() + "%");
+            object.put("temperature",d.getTemperature());
+            object.put("humidity", d.getHumidity());
             object.put("eventTime",sdf.format(d.getEventTime()));
             object.put("onLine",d.getDeviceStatus());
             objects.add(object);
@@ -146,13 +146,14 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         List<String> data = new ArrayList<>();
         for(DeviceData dd : strings){
             if(isTemperature){
-                data.add(dd.getTemperature() + "°C");
+                data.add(String.valueOf(dd.getTemperature()));
             }else{
-                data.add(dd.getHumidity() + "%");
+                data.add(String.valueOf(dd.getHumidity()));
             }
         }
         object.put(yAxisName,data);
     }
+    
     @Override
     public JSONObject getTodayTemperatureDeviceData() {
         JSONObject object = new JSONObject();
@@ -199,19 +200,19 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         if("temperature".equals(type)){
             for(DeviceData dd : list){
                 xData.add(sdf.format(dd.getEventTime()));
-                yData.add(dd.getTemperature() + "°C");
+                yData.add(String.valueOf(dd.getTemperature()));
             }
         }else if ("humidity".equals(type)){
             for(DeviceData dd : list){
                 xData.add(sdf.format(dd.getEventTime()));
-                yData.add(dd.getHumidity() + "%");
+                yData.add(String.valueOf(dd.getHumidity()));
             }
         }else{
             List<String> zData = new ArrayList<>();
             for(DeviceData dd : list){
                 xData.add(sdf.format(dd.getEventTime()));
-                yData.add(dd.getHumidity() + "%");
-                zData.add(dd.getTemperature() + "°C");
+                yData.add(String.valueOf(dd.getHumidity()));
+                zData.add(String.valueOf(dd.getTemperature()));
             }
             result.put("data",zData);
         }

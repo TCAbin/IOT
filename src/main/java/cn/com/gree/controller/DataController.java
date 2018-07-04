@@ -81,6 +81,13 @@ public class DataController {
      */
     @RequestMapping("getDeviceHistoryData")
     public Result getDeviceHistoryData(String id, String type, Date startTime, Date endTime){
+        long time = endTime.getTime() - startTime.getTime();
+        if(time < 0){
+            return new Result(false,"timeError");
+        }
+        if(time > 7 * 24 * 60 * 60 * 1000){
+            return new Result(false,"overSevenDay");
+        }
         JSONObject object = deviceDataService.getDeviceHistoryData(id, type, startTime, endTime);
         if(object.size() > 0){
             return new Result(true,"success", object);

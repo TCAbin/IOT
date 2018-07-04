@@ -3,6 +3,7 @@ package cn.com.gree.service.impl;
 import cn.com.gree.dao.BaseDao;
 import cn.com.gree.entity.Devices;
 import cn.com.gree.service.DevicesService;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -55,9 +56,19 @@ public class DevicesServiceImpl implements DevicesService {
     }
 
     @Override
-    public boolean updateOption(List<Devices> devices) {
-        for(Devices device : devices){
-            baseDao.update(device);
+    public boolean updateOption(String data) {
+        JSONArray array = JSONArray.fromObject(data);
+        for(int i = 0 ; i < array.size() ; i++){
+            JSONObject o = array.getJSONObject(i);
+            Devices d = baseDao.getById(Devices.class, o.getLong("id"));
+            d.setArea(o.getString("area"));
+            d.setDeviceName(o.getString("deviceName"));
+            d.setMinTemperature(o.getInt("minTemperature"));
+            d.setMaxTemperature(o.getInt("maxTemperature"));
+            d.setMinHumidity(o.getInt("minHumidity"));
+            d.setMaxHumidity(o.getInt("maxHumidity"));
+            d.setMail(o.getString("mail"));
+            d.setPropelMail(o.getBoolean("propelMail"));
         }
         return true;
     }

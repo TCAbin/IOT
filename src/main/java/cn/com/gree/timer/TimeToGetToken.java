@@ -76,12 +76,12 @@ public class TimeToGetToken {
         for(Devices d : devices){
             DeviceData dd = deviceDataService.getDeviceData(d);
             if(dd != null){
-                if(deviceDataService.judgeDeviceDataIsExist(dd)){
+//                if(deviceDataService.judgeDeviceDataIsExist(dd)){
                     baseDao.save(dd);
                     if(d.isPropelMail() && !"".equals(d.getMail()) && d.getMail().contains("@")){
                         sendMail(d,dd);
                     }
-                }
+//                }
             } else {
                 return false;
             }

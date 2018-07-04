@@ -44,7 +44,7 @@ public class LoginController {
         if(flag == 0){
             return new Result(true,"success");
         } else if(flag == 1){
-            return new Result(false,"somebody is setting");
+            return new Result(false,"somebodySetting");
         } else {
             return new Result(false,"failed");
         }
