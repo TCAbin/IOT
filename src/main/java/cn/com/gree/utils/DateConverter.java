@@ -3,7 +3,6 @@ package cn.com.gree.utils;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.lang.Nullable;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -14,7 +13,6 @@ public class DateConverter implements Converter<String,Date> {
             "yyyy-MM-dd", "yyyy:MM:dd", "HH:mm:ss","yyyy-MM-dd HH:mm"};
 
 
-    @Nullable
     @Override
     public Date convert(String s) {
         if(!s.equals("")){

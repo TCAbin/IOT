@@ -24,7 +24,6 @@ import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.KeyStore;
@@ -60,19 +59,19 @@ public class HttpsUtil extends DefaultHttpClient {
 	 * */
 	public void initSSLConfigForTwoWay() throws Exception {
 		// 1 Import your own certificate
-		String demo_base_Path = System.getProperty("user.dir");
-		String selfcertpath = demo_base_Path + Constant.SELFCERTPATH;
-		String trustcapath = demo_base_Path + Constant.TRUSTCAPATH;
+//		String demo_base_Path = System.getProperty("user.dir");
+//		String selfcertpath = demo_base_Path + Constant.SELFCERTPATH;
+//		String trustcapath = demo_base_Path + Constant.TRUSTCAPATH;
 
 		KeyStore selfCert = KeyStore.getInstance("pkcs12");
-		selfCert.load(new FileInputStream(selfcertpath),
+		selfCert.load(HttpsUtil.class.getResourceAsStream("/cert/outgoing.CertwithKey.pkcs12"),
 				Constant.SELFCERTPWD.toCharArray());
 		KeyManagerFactory kmf = KeyManagerFactory.getInstance("sunx509");
 		kmf.init(selfCert, Constant.SELFCERTPWD.toCharArray());
 
 		// 2 Import the CA certificate of the server,
 		KeyStore caCert = KeyStore.getInstance("jks");
-		caCert.load(new FileInputStream(trustcapath), Constant.TRUSTCAPWD.toCharArray());
+		caCert.load(HttpsUtil.class.getResourceAsStream("/cert/ca.jks"), Constant.TRUSTCAPWD.toCharArray());
 		TrustManagerFactory tmf = TrustManagerFactory.getInstance("sunx509");
 		tmf.init(caCert);
 

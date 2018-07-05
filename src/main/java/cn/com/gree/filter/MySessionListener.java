@@ -2,14 +2,14 @@ package cn.com.gree.filter;
 
 import cn.com.gree.dao.BaseDao;
 import cn.com.gree.entity.User;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-@WebListener
+@Component
 public class MySessionListener implements HttpSessionListener {
 
     @Resource(name = "BaseDao")
