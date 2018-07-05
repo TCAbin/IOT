@@ -32,19 +32,6 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     @Override
     public List<JSONObject> getMaxDateData() {
         List<JSONObject> objects = new ArrayList<>();
-//        String jpql1 = " select o from DeviceData o where o.time in (select max(time) from DeviceData group by device) ";
-//        String sql = " select a.device , max(a.time) as time from DeviceData a group by a.device ";
-//        String sql1 = " select b from DeviceData b ";
-//        StringBuffer jpql = new StringBuffer(" select d from ");
-//        jpql.append(" (").append(sql).append(") c left join fetch ")
-//                .append(" (").append(sql1).append(") d")
-//                .append(" on c.device = d.device and c.time = d.time ");
-//        List<DeviceData> list = baseDao.getByJpql(jpql.toString());
-//        String str = " select d.* from " +
-//                "( select a.device_id , max(a.time) as time from t_device_data a group by a.device_id ) c " +
-//                " left join " +
-//                "( select b.* from t_device_data b ) d " +
-//                "on c.device_id = d.device_id and c.time = d.time ";
         String str = " select o.* from t_device_data o , " +
                 "(select device_id,max(time) as time from t_device_data group by device_id) a " +
                 "where a.device_id = o.device_id and o.time = a.time ";
@@ -54,9 +41,13 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         for(DeviceData d : list){
             JSONObject object = new JSONObject();
             Devices devices = d.getDevice();
-            if(d.getTemperature() < devices.getMinTemperature() || d.getTemperature() > devices.getMaxTemperature()){
+            boolean temperatureFlag = d.getTemperature() < devices.getMinTemperature() || d.getTemperature() > devices.getMaxTemperature();
+            boolean humidityFlag = d.getHumidity() < devices.getMinHumidity() || d.getHumidity() > devices.getMaxHumidity();
+            if(temperatureFlag && humidityFlag){
+                object.put("alert","3");
+            } else if(temperatureFlag){
                 object.put("alert","1");
-            } else if(d.getHumidity() < devices.getMinHumidity() || d.getHumidity() > devices.getMaxHumidity()){
+            } else if(humidityFlag){
                 object.put("alert","2");
             } else {
                 object.put("alert","0");

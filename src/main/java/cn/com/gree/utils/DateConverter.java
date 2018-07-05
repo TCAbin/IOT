@@ -15,7 +15,7 @@ public class DateConverter implements Converter<String,Date> {
 
     @Override
     public Date convert(String s) {
-        if(!s.equals("")){
+        if(!"".equals(s)){
             try {
                 return DateUtils.parseDateStrictly(s,PETTERNS);
             } catch (ParseException e) {

@@ -52,11 +52,4 @@ public class UserController {
         return new Result(true,"success");
     }
 
-    @RequestMapping(value = "destroySession")
-    public Result destroySession(HttpServletRequest request){
-        request.getSession().removeAttribute("user");
-        request.getSession().invalidate();
-        return new Result(true,"success");
-    }
-
 }

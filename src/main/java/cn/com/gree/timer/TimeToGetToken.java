@@ -78,7 +78,7 @@ public class TimeToGetToken {
             if(dd != null){
 //                if(deviceDataService.judgeDeviceDataIsExist(dd)){
                     baseDao.save(dd);
-                    if(d.isPropelMail() && !"".equals(d.getMail()) && d.getMail().contains("@")){
+                    if(d.isPropelMail() && d.getMail() != null && !"".equals(d.getMail()) && d.getMail().contains("@")){
                         sendMail(d,dd);
                     }
 //                }
@@ -152,7 +152,7 @@ public class TimeToGetToken {
                 mail.append("<div>湿度值 : ").append("<font style='color:red'>").append(dd.getHumidity()).append("%</font></div>");
                 break;
         }
-        mail.append("<div><a href='' target='_blank' style='text-decoration: underline;'>系统主页</a></div>")
+        mail.append("<div><a href='http://61.190.36.236:8088' target='_blank' style='text-decoration: underline;'>系统主页</a></div>")
                 .append("</div>");
         SpringMail.sendMail(d.getMail(), "iamatestmail@163.com","合肥基地机房" + title + "报警",mail.toString(),null);
     }
