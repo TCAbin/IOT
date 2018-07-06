@@ -30,7 +30,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
 
 
     @Override
-    public List<JSONObject> getMaxDateData() {
+    public List<JSONObject> getMaxDateData(boolean flag) {
         List<JSONObject> objects = new ArrayList<>();
         String str = " select o.* from t_device_data o , " +
                 "(select device_id,max(time) as time from t_device_data group by device_id) a " +
@@ -58,12 +58,18 @@ public class DeviceDataServiceImpl implements DeviceDataService {
             object.put("humidity", d.getHumidity());
             object.put("eventTime",sdf.format(d.getEventTime()));
             object.put("onLine",d.getDeviceStatus());
-            objects.add(object);
-            if(d.getId() == 1){
-                JSONObject o = new JSONObject();
-                o.put("xAxis",sdf.format(d.getTime()));
-                objects.add(o);
+            if(flag){
+                object.put("minStandardTemperature",devices.getMinTemperature());
+                object.put("maxStandardTemperature",devices.getMaxTemperature());
+                object.put("minStandardHumidity",devices.getMinHumidity());
+                object.put("maxStandardHumidity",devices.getMaxHumidity());
+                if(d.getId() == 1){
+                    JSONObject o = new JSONObject();
+                    o.put("xAxis",sdf.format(d.getTime()));
+                    objects.add(o);
+                }
             }
+            objects.add(object);
         }
         return objects;
     }
@@ -112,13 +118,16 @@ public class DeviceDataServiceImpl implements DeviceDataService {
      * @date 2018/6/28 9:38
      * 获取今日视图的横坐标
      */
-    private List<String> getTodayXAxis(){
-        String jpql = " select o from DeviceData o where device.id = 1 ";
-        List<DeviceData> xAxis = baseDao.getByJpql(jpql);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public List<String> getTodayXAxis(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        StringBuffer jpql = new StringBuffer(" select o from DeviceData o where o.device.id = 1 and time >= '");
+        jpql.append(sdf.format(date)).append("' and time <= '").append(sdf.format(date)).append(" 23:59:59' ");
+        List<DeviceData> xAxis = baseDao.getByJpql(jpql.toString());
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         List<String> result = new ArrayList<>();
         for(DeviceData dd : xAxis){
-            result.add(sdf.format(dd.getTime()));
+            result.add(sdf1.format(dd.getTime()));
         }
         return result;
     }
@@ -143,6 +152,18 @@ public class DeviceDataServiceImpl implements DeviceDataService {
             }
         }
         object.put(yAxisName,data);
+//        JSONObject o = new JSONObject();
+//        if(isTemperature){
+//            o.put("minStandardTemperature",devices.getMinTemperature());
+//            o.put("maxStandardTemperature",devices.getMaxTemperature());
+//        }else{
+//            o.put("minStandardHumidity",devices.getMinHumidity());
+//            o.put("maxStandardHumidity",devices.getMaxHumidity());
+//        }
+//        JSONObject result = new JSONObject();
+//        result.put("data",data);
+//        result.put("standard",o);
+//        object.put(yAxisName,result);
     }
     
     @Override

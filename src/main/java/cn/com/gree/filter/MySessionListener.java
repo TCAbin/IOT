@@ -30,7 +30,6 @@ public class MySessionListener implements HttpSessionListener {
         User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+username+"'").get(0);
         if(user.isOnOption()){
             user.setOnOption(false);
-            baseDao.save(user);
         }
     }
 }

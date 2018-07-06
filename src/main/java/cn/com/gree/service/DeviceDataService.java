@@ -14,7 +14,7 @@ public interface DeviceDataService {
      * @date 2018/6/27 16:20
      * 获取数据库中最新数据
      */
-    List<JSONObject> getMaxDateData();
+    List<JSONObject> getMaxDateData(boolean flag);
 
     /**
      * @author 260172
@@ -39,6 +39,12 @@ public interface DeviceDataService {
      */
     JSONObject getTodayTemperatureDeviceData();
 
+    /**
+     * @author Abin
+     * @date 2018/7/5 18:10
+     * 获取今天横坐标的数据
+     */
+    public List<String> getTodayXAxis();
 
     /**
      * @author 260172
@@ -46,6 +52,7 @@ public interface DeviceDataService {
      * 获取今天湿度数据
      */
     JSONObject getTodayHumidityDeviceData();
+
     /**
      * @author 260172
      * @date 2018/6/27 18:01

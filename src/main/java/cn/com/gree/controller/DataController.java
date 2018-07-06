@@ -34,7 +34,7 @@ public class DataController {
      */
     @RequestMapping("getDeviceData")
     public Result getDeviceData(){
-        List<JSONObject> list = deviceDataService.getMaxDateData();
+        List<JSONObject> list = deviceDataService.getMaxDateData(false);
         if(list != null && list.size() > 0){
             return new Result(true,"success", list);
         }else{

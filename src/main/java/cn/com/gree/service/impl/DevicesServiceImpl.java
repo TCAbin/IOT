@@ -19,7 +19,7 @@ public class DevicesServiceImpl implements DevicesService {
 
     @Override
     public List<Devices> getDevices() {
-        return baseDao.getByJpql(" select o from Devices o group by o.deviceId ");
+        return baseDao.getByJpql(" select o from Devices o order by o.id ");
     }
 
     @Override

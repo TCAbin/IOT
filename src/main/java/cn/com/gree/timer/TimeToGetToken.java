@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -51,13 +52,15 @@ public class TimeToGetToken {
      * @date 2018/6/26 9:51
      * 每十分钟获取一次设备数据
      */
-    @Scheduled(cron = "0 0/10 * * * *")
+    @Scheduled(cron = "0 0/1 * * * *")
     private void getDeviceData(){
         boolean flag = setDeviceData();
         Result result = null;
         if(flag){
-            List<JSONObject> objects = deviceDataService.getMaxDateData();
-            result = new Result(true,"success",objects);
+            JSONObject object = new JSONObject();
+            object.put("deviceData",deviceDataService.getMaxDateData(true));
+            object.put("xAxis",deviceDataService.getTodayXAxis());
+            result = new Result(true,"success",object);
         }else{
             result = new Result(false,"data acquisition problems,please wait for next fresh.");
         }
@@ -73,18 +76,26 @@ public class TimeToGetToken {
      */
     private boolean setDeviceData() {
         List<Devices> devices = devicesService.getDevices();
-        for(Devices d : devices){
+        List<DeviceData> result = new ArrayList<>();
+        for(Devices d : devices) {
             DeviceData dd = deviceDataService.getDeviceData(d);
-            if(dd != null){
-//                if(deviceDataService.judgeDeviceDataIsExist(dd)){
-                    baseDao.save(dd);
-                    if(d.isPropelMail() && d.getMail() != null && !"".equals(d.getMail()) && d.getMail().contains("@")){
-                        sendMail(d,dd);
-                    }
-//                }
-            } else {
-                return false;
+            if(dd != null) {
+                result.add(dd);
             }
+        }
+        if(result.size() == devices.size()){
+            for(Devices d : devices){
+                for(DeviceData dd : result){
+                    if(dd.getDevice().equals(d)){
+                        baseDao.save(dd);
+                        if(d.isPropelMail() && d.getMail() != null && !"".equals(d.getMail()) && d.getMail().contains("@")){
+                            sendMail(d,dd);
+                        }
+                    }
+                }
+            }
+        }else{
+            return false;
         }
         return true;
     }
@@ -154,7 +165,7 @@ public class TimeToGetToken {
         }
         mail.append("<div><a href='http://61.190.36.236:8088' target='_blank' style='text-decoration: underline;'>系统主页</a></div>")
                 .append("</div>");
-        SpringMail.sendMail(d.getMail(), "iamatestmail@163.com","合肥基地机房" + title + "报警",mail.toString(),null);
+        SpringMail.sendMail(d.getMail(),"合肥基地机房" + title + "报警",mail.toString(),new ArrayList<>());
     }
 
 
