@@ -186,6 +186,17 @@ public class BaseDaoImpl implements BaseDao {
     }
 
     @Override
+    public <T> List<T> getMaxResultByJpql(String jpql, int limit, Object... objects) {
+        Query query = createQuery(jpql,objects);
+        query.setMaxResults(limit);
+        try {
+            return query.getResultList();
+        } catch (NoResultException e){
+            return null;
+        }
+    }
+
+    @Override
     public <T> List<T> getByNativeSQL(Class<T> clazz, String sql) {
         return em.createNativeQuery(sql,clazz).getResultList();
     }

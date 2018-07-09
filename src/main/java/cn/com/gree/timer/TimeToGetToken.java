@@ -52,7 +52,7 @@ public class TimeToGetToken {
      * @date 2018/6/26 9:51
      * 每十分钟获取一次设备数据
      */
-    @Scheduled(cron = "0 0/1 * * * *")
+    @Scheduled(cron = "0 0/26 * * * *")
     private void getDeviceData(){
         boolean flag = setDeviceData();
         Result result = null;
@@ -87,6 +87,9 @@ public class TimeToGetToken {
             for(Devices d : devices){
                 for(DeviceData dd : result){
                     if(dd.getDevice().equals(d)){
+                        if(deviceDataService.judgeDeviceDataIsOffLine(dd)){
+                            dd.setDeviceStatus(0);
+                        }
                         baseDao.save(dd);
                         if(d.isPropelMail() && d.getMail() != null && !"".equals(d.getMail()) && d.getMail().contains("@")){
                             sendMail(d,dd);

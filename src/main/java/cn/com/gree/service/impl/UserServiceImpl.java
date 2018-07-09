@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
         }else{
             return 2; // 原密码错误
         }
-        baseDao.save(user);
+        baseDao.update(user);
         return 0;
     }
 
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
         }else{
             return 2;
         }
-        baseDao.save(user);
+        baseDao.update(user);
         return 0;
     }
 }

@@ -75,15 +75,19 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     }
 
     @Override
-    public boolean judgeDeviceDataIsExist(DeviceData dd) {
-        List<QueryCondition> conditions = new ArrayList<>();
-        QueryCondition condition = new QueryCondition("eventTime",QueryCondition.EQUAL,dd.getEventTime());
-        conditions.add(condition);
-        List<DeviceData> list = baseDao.get(DeviceData.class,conditions);
-        if(list != null && list.size() > 0){
-            return !list.get(0).getDeviceStatus().equals(dd.getDeviceStatus());
+    public boolean judgeDeviceDataIsOffLine(DeviceData dd) {
+//        List<QueryCondition> conditions = new ArrayList<>();
+//        QueryCondition condition = new QueryCondition("device.id",QueryCondition.EQUAL,dd.getDevice().getId());
+//        conditions.add(condition);
+//        List<DeviceData> list = baseDao.get(DeviceData.class,conditions," order by o.time desc limit 2 ");
+        StringBuffer jpql = new StringBuffer(" select o from DeviceData o where o.device.id = '");
+        jpql.append(dd.getDevice().getId()).append("' order by o.time desc ");
+        List<DeviceData> list = baseDao.getMaxResultByJpql(jpql.toString(),2);
+        if(list != null && list.size() == 2){
+            return list.get(0).getEventTime().equals(list.get(1).getEventTime()) &&
+                    list.get(0).getEventTime().getTime() == dd.getEventTime().getTime();
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -151,19 +155,19 @@ public class DeviceDataServiceImpl implements DeviceDataService {
                 data.add(String.valueOf(dd.getHumidity()));
             }
         }
-        object.put(yAxisName,data);
-//        JSONObject o = new JSONObject();
-//        if(isTemperature){
-//            o.put("minStandardTemperature",devices.getMinTemperature());
-//            o.put("maxStandardTemperature",devices.getMaxTemperature());
-//        }else{
-//            o.put("minStandardHumidity",devices.getMinHumidity());
-//            o.put("maxStandardHumidity",devices.getMaxHumidity());
-//        }
-//        JSONObject result = new JSONObject();
-//        result.put("data",data);
-//        result.put("standard",o);
-//        object.put(yAxisName,result);
+//        object.put(yAxisName,data);
+        JSONObject o = new JSONObject();
+        if(isTemperature){
+            o.put("minStandardTemperature",devices.getMinTemperature());
+            o.put("maxStandardTemperature",devices.getMaxTemperature());
+        }else{
+            o.put("minStandardHumidity",devices.getMinHumidity());
+            o.put("maxStandardHumidity",devices.getMaxHumidity());
+        }
+        JSONObject result = new JSONObject();
+        result.put("data",data);
+        result.put("standard",o);
+        object.put(yAxisName,result);
     }
     
     @Override

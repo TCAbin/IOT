@@ -69,6 +69,7 @@ public class DevicesServiceImpl implements DevicesService {
             d.setMaxHumidity(o.getInt("maxHumidity"));
             d.setMail(o.getString("mail"));
             d.setPropelMail(o.getBoolean("propelMail"));
+            baseDao.update(d);
         }
         return true;
     }

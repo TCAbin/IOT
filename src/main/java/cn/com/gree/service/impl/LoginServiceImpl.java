@@ -33,7 +33,7 @@ public class LoginServiceImpl implements LoginService {
                 return 1;
             }
             user.setOnOption(true);
-            baseDao.save(user);
+            baseDao.update(user);
             return 0;
         }else{
             return 2;
@@ -45,7 +45,7 @@ public class LoginServiceImpl implements LoginService {
         User user = (User) baseDao.getByJpql("select o from User o where o.userName = '"+username+"'").get(0);
         if(user.isOnOption()){
             user.setOnOption(false);
-            baseDao.save(user);
+            baseDao.update(user);
         }
     }
 

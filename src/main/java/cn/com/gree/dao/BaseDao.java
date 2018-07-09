@@ -155,6 +155,14 @@ public interface BaseDao {
      */
     Object getSingleResultByLimit(String jpql, int limit, Object... objects);
 
+
+    /**
+     * @author Abin
+     * @date 2018/7/9 14:17
+     * 获取最大结果集
+     */
+    <T> List<T> getMaxResultByJpql(String jpql, int limit, Object... objects);
+
     /**
      * @author 260172
      * @date 2018/6/25 15:39

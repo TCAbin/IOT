@@ -21,7 +21,7 @@ public interface DeviceDataService {
      * @date 2018/6/27 17:03
      * 判断数据库是否含有此条数据
      */
-    boolean judgeDeviceDataIsExist(DeviceData dd);
+    boolean judgeDeviceDataIsOffLine(DeviceData dd);
 
 
     /**
