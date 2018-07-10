@@ -128,7 +128,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         StringBuffer jpql = new StringBuffer(" select o from DeviceData o where o.device.id = 1 and time >= '");
         jpql.append(sdf.format(date)).append("' and time <= '").append(sdf.format(date)).append(" 23:59:59' ");
         List<DeviceData> xAxis = baseDao.getByJpql(jpql.toString());
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm:ss");
         List<String> result = new ArrayList<>();
         for(DeviceData dd : xAxis){
             result.add(sdf1.format(dd.getTime()));
@@ -148,12 +148,15 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         jpql.append(" order by d.eventTime ");
         List<DeviceData> strings = baseDao.getByJpql(jpql.toString());
         List<String> data = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        List<String> eventTime = new ArrayList<>();
         for(DeviceData dd : strings){
             if(isTemperature){
                 data.add(String.valueOf(dd.getTemperature()));
             }else{
                 data.add(String.valueOf(dd.getHumidity()));
             }
+            eventTime.add(sdf.format(dd.getEventTime()));
         }
 //        object.put(yAxisName,data);
         JSONObject o = new JSONObject();
@@ -166,6 +169,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         }
         JSONObject result = new JSONObject();
         result.put("data",data);
+        result.put("eventTime",eventTime);
         result.put("standard",o);
         object.put(yAxisName,result);
     }
