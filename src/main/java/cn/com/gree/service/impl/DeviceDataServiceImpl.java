@@ -147,18 +147,6 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         jpql.append(" and d.device.id = ").append(devices.getId());
         jpql.append(" order by d.eventTime ");
         List<DeviceData> strings = baseDao.getByJpql(jpql.toString());
-        List<String> data = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        List<String> eventTime = new ArrayList<>();
-        for(DeviceData dd : strings){
-            if(isTemperature){
-                data.add(String.valueOf(dd.getTemperature()));
-            }else{
-                data.add(String.valueOf(dd.getHumidity()));
-            }
-            eventTime.add(sdf.format(dd.getEventTime()));
-        }
-//        object.put(yAxisName,data);
         JSONObject o = new JSONObject();
         if(isTemperature){
             o.put("minStandardTemperature",devices.getMinTemperature());
@@ -168,10 +156,42 @@ public class DeviceDataServiceImpl implements DeviceDataService {
             o.put("maxStandardHumidity",devices.getMaxHumidity());
         }
         JSONObject result = new JSONObject();
-        result.put("data",data);
-        result.put("eventTime",eventTime);
+        result.put("data",getYAxisData(object,strings,isTemperature));
         result.put("standard",o);
         object.put(yAxisName,result);
+    }
+
+    /**
+     * @author Abin
+     * @date 2018/7/10 17:10
+     * 检测空数据
+     */
+    private List<String> getYAxisData(JSONObject object,List<DeviceData> strings,boolean isTemperature){
+        List<String> data = new ArrayList<>();
+        List<String> xAxis = (List<String>) object.get("xAxis");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        for (String xAxs : xAxis) {
+            String x = xAxs.substring(0,xAxs.lastIndexOf(":"));
+            boolean flag = true;
+            for(DeviceData dd : strings){
+                if (x.equals(sdf.format(dd.getTime()))) {
+                    flag = false;
+                    if (isTemperature) {
+                        data.add(String.valueOf(dd.getTemperature()));
+                    } else {
+                        data.add(String.valueOf(dd.getHumidity()));
+                    }
+                }
+            }
+            if(flag){
+                if (isTemperature) {
+                    data.add("");
+                } else {
+                    data.add("");
+                }
+            }
+        }
+        return data;
     }
     
     @Override
@@ -180,10 +200,10 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateStr = sdf.format(new Date());
         List<Devices> devices = devicesService.getDevices();
+        object.put("xAxis",getTodayXAxis());
         for(Devices d : devices){
             getTodayYAxis(object,d,dateStr,d.getDeviceName(),true);
         }
-        object.put("xAxis",getTodayXAxis());
         return object;
     }
 
@@ -193,10 +213,10 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateStr = sdf.format(new Date());
         List<Devices> devices = devicesService.getDevices();
+        object.put("xAxis",getTodayXAxis());
         for(Devices d : devices){
             getTodayYAxis(object,d,dateStr,d.getDeviceName(),false);
         }
-        object.put("xAxis",getTodayXAxis());
         return object;
     }
 

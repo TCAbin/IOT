@@ -4,6 +4,7 @@ import cn.com.gree.utils.DateConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
@@ -37,6 +38,17 @@ public class MainClass extends SpringBootServletInitializer {
     @Bean
     public DateConverter dateConverter(){
         return new DateConverter();
+    }
+
+
+    /**
+     * @author Abin
+     * @date 2018/7/10 11:13
+     * session 过期时间
+     */
+    @Bean
+    public EmbeddedServletContainerCustomizer customizer(){
+        return configurableEmbeddedServletContainer -> configurableEmbeddedServletContainer.setSessionTimeout(1800);
     }
 
     
