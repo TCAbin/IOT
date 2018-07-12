@@ -4,10 +4,10 @@ import cn.com.gree.filter.UserSecurityInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class MyConfig extends WebMvcConfigurerAdapter {
+public class MyConfig implements WebMvcConfigurer {
 
 
     /**

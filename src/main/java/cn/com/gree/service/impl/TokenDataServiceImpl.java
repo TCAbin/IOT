@@ -3,6 +3,7 @@ package cn.com.gree.service.impl;
 import cn.com.gree.dao.BaseDao;
 import cn.com.gree.entity.TokenData;
 import cn.com.gree.service.TokenDataService;
+import cn.com.gree.utils.DateTransform;
 import cn.com.gree.utils.IOTUtils.DataCollector;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class TokenDataServiceImpl implements TokenDataService {
         String token = DataCollector.getToken();
         if(token != null){
             TokenData data = new TokenData();
-            data.setDate(new Date());
+            data.setDate(DateTransform.conver(new Date(),12));
             data.setToken(token);
             baseDao.save(data);
         }

@@ -8,6 +8,7 @@ import cn.com.gree.entity.TokenData;
 import cn.com.gree.service.DeviceDataService;
 import cn.com.gree.service.DevicesService;
 import cn.com.gree.service.TokenDataService;
+import cn.com.gree.utils.DateTransform;
 import cn.com.gree.utils.IOTUtils.DataCollector;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -76,10 +77,6 @@ public class DeviceDataServiceImpl implements DeviceDataService {
 
     @Override
     public boolean judgeDeviceDataIsOffLine(DeviceData dd) {
-//        List<QueryCondition> conditions = new ArrayList<>();
-//        QueryCondition condition = new QueryCondition("device.id",QueryCondition.EQUAL,dd.getDevice().getId());
-//        conditions.add(condition);
-//        List<DeviceData> list = baseDao.get(DeviceData.class,conditions," order by o.time desc limit 2 ");
         StringBuffer jpql = new StringBuffer(" select o from DeviceData o where o.device.id = '");
         jpql.append(dd.getDevice().getId()).append("' order by o.time desc ");
         List<DeviceData> list = baseDao.getMaxResultByJpql(jpql.toString(),2);
@@ -100,9 +97,9 @@ public class DeviceDataServiceImpl implements DeviceDataService {
             if(td != null){
                 dd = new DeviceData();
                 dd.setDevice(d);
-                dd.setTime(new Date());
+                dd.setTime(DateTransform.conver(new Date(),12));
                 Map<String,String> map = DataCollector.getRemoteData(d.getDeviceId(),td.getToken());
-                dd.setEventTime(setZone(sdf.parse(map.get("eventTime")),8));
+                dd.setEventTime(DateTransform.conver(sdf.parse(map.get("eventTime")),8));
                 dd.setTemperature(Double.valueOf(map.get("Temperature")));
                 dd.setHumidity(Double.valueOf(map.get("humidity")));
                 dd.setDeviceStatus(Integer.valueOf(map.get("status")));
@@ -124,7 +121,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
      */
     public List<String> getTodayXAxis(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
+        Date date = DateTransform.conver(new Date(),12);
         StringBuffer jpql = new StringBuffer(" select o from DeviceData o where o.device.id = 1 and time >= '");
         jpql.append(sdf.format(date)).append("' and time <= '").append(sdf.format(date)).append(" 23:59:59' ");
         List<DeviceData> xAxis = baseDao.getByJpql(jpql.toString());
@@ -198,7 +195,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     public JSONObject getTodayTemperatureDeviceData() {
         JSONObject object = new JSONObject();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String dateStr = sdf.format(new Date());
+        String dateStr = sdf.format(DateTransform.conver(new Date(),12));
         List<Devices> devices = devicesService.getDevices();
         object.put("xAxis",getTodayXAxis());
         for(Devices d : devices){
@@ -211,7 +208,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     public JSONObject getTodayHumidityDeviceData() {
         JSONObject object = new JSONObject();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String dateStr = sdf.format(new Date());
+        String dateStr = sdf.format(DateTransform.conver(new Date(),12));
         List<Devices> devices = devicesService.getDevices();
         object.put("xAxis",getTodayXAxis());
         for(Devices d : devices){
@@ -261,16 +258,4 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         return result;
     }
 
-
-    /**
-     * @autor 260172
-     * @date 2018/6/26 14:53
-     * 增加hour小时
-     */
-    private Date setZone(Date date,int hour){
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.HOUR, hour);
-        return cal.getTime();
-    }
 }

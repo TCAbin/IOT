@@ -1,6 +1,7 @@
 package cn.com.gree.aop.annotation;
 
 import cn.com.gree.aop.logEntity.OperateLog;
+import cn.com.gree.utils.DateTransform;
 
 import java.lang.reflect.Method;
 import java.util.Date;
@@ -19,7 +20,7 @@ public class DataBaseLogParse {
                     ol.setModule(dbl.module());
                     ol.setOperateTable(table);
                     ol.setOperation(dbl.operate().name().toLowerCase());
-                    ol.setDate(new Date());
+                    ol.setDate(DateTransform.conver(new Date(),12));
                     return ol;
                 }
                 break;
