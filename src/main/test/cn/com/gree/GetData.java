@@ -1,4 +1,4 @@
-package cn.com.gree.test;
+package cn.com.gree;
 
 import cn.com.gree.entity.DeviceData;
 import cn.com.gree.entity.Devices;

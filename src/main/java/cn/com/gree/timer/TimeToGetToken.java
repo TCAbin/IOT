@@ -52,7 +52,7 @@ public class TimeToGetToken {
      * @date 2018/6/26 9:51
      * 每十分钟获取一次设备数据
      */
-    @Scheduled(cron = "0 0/10 * * * *")
+    @Scheduled(cron = "0 0/5 * * * *")
     private void getDeviceData(){
         boolean flag = setDeviceData();
         Result result = null;
