@@ -42,7 +42,7 @@ public class TimeToGetToken {
      * @date 2018/6/26 9:33
      * 每小时刷新token
      */
-    @Scheduled(cron = "0 45 * * * *")
+    @Scheduled(cron = "0 47 * * * *")
     private void getToken(){
         tokenDataService.refreshToken();
     }
@@ -87,7 +87,10 @@ public class TimeToGetToken {
             for(Devices d : devices){
                 for(DeviceData dd : result){
                     if(dd.getDevice().equals(d)){
-                        if(deviceDataService.judgeDeviceDataIsOffLine(dd)){
+//                        if(deviceDataService.judgeDeviceDataIsOffLine(dd)){
+//                            dd.setDeviceStatus(0);
+//                        }
+                        if(dd.getDeviceStatus() != 1){
                             dd.setDeviceStatus(0);
                         }
                         baseDao.save(dd);

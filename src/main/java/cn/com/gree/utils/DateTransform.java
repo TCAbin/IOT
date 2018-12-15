@@ -11,9 +11,9 @@ public class DateTransform {
      * 增加hour小时
      */
     public static Date conver (Date date,int hour){
-        if(hour == 12){
-            return date;
-        }
+//        if(hour == 12){
+//            return date;
+//        }
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.HOUR, hour);

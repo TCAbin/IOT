@@ -11,6 +11,28 @@ import java.util.Map;
 
 public class DataCollector {
 
+    /** https校验 */
+    private static HttpsUtil httpsUtil = null;
+
+    static {
+        verifyHttps();
+    }
+
+    /**
+     * @author Abin
+     * @date 2018/8/7 15:58
+     * Https验证
+     */
+    private static void verifyHttps(){
+        httpsUtil = new HttpsUtil();
+        try {
+            httpsUtil.initSSLConfigForTwoWay();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     /**
      * @author 260172
      * @date 2018/6/27 16:16
@@ -22,9 +44,7 @@ public class DataCollector {
         String secret = Constant.SECRET;
         String urlLogin = Constant.APP_AUTH;
 
-        HttpsUtil httpsUtil = new HttpsUtil();
         try {
-            httpsUtil.initSSLConfigForTwoWay();
             Map<String, String> paramLogin = new HashMap<>();
             paramLogin.put("appId", appId);
             paramLogin.put("secret", secret);
@@ -34,6 +54,7 @@ public class DataCollector {
             data = JsonUtil.jsonString2SimpleObj(responseLogin.getContent(), data.getClass());
             return data.get("accessToken");
         } catch (Exception e) {
+            verifyHttps();
             System.out.println("获取token失败。" + e.getMessage());
         }
         return null;
@@ -47,9 +68,6 @@ public class DataCollector {
      */
     @SuppressWarnings("unchecked")
     public static Map<String,String> getRemoteData(String deviceId,String accessToken) throws Exception {
-        HttpsUtil httpsUtil = new HttpsUtil();
-        httpsUtil.initSSLConfigForTwoWay();
-
         String appId = Constant.APPID;
         String urlQueryDeviceData = Constant.QUERY_DEVICE_DATA + "/" + deviceId;
 

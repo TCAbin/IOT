@@ -44,17 +44,11 @@
       </exclusions>
     </dependency>
 
-    <!--热部署-->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-    </dependency>
-
     <!-- tomcat -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-tomcat</artifactId>
-      <!--<scope>provided</scope>-->
+      <scope>provided</scope>
     </dependency>
 
     <!-- 测试包 -->
@@ -71,17 +65,10 @@
     </dependency>
 
     <!-- thymeleaf -->
-      <dependency>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-thymeleaf</artifactId>
-      </dependency>
-
-
-    <!-- jdbc -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-jdbc</artifactId>
-    </dependency>
+      <!--<dependency>-->
+          <!--<groupId>org.springframework.boot</groupId>-->
+          <!--<artifactId>spring-boot-starter-thymeleaf</artifactId>-->
+      <!--</dependency>-->
 
     <!-- mysql连接-->
     <dependency>
@@ -101,13 +88,6 @@
       <artifactId>spring-boot-starter-aop</artifactId>
     </dependency>
 
-    <!-- io -->
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.4</version>
-    </dependency>
-
     <!-- druid 连接池-->
     <dependency>
       <groupId>com.alibaba</groupId>
@@ -115,13 +95,7 @@
       <version>1.1.10</version>
     </dependency>
 
-    <!-- httpclient -->
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>4.5.3</version>
-    </dependency>
-
+    <!-- httpmime -->
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpmime</artifactId>
@@ -134,13 +108,6 @@
       <artifactId>json-lib</artifactId>
       <version>2.4</version>
       <classifier>jdk15</classifier>
-    </dependency>
-
-    <!-- axis -->
-    <dependency>
-      <groupId>org.apache.axis</groupId>
-      <artifactId>axis</artifactId>
-      <version>1.4</version>
     </dependency>
 
     <!--邮件 -->
